@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 
 import { colors } from '../theme/colors';
 
@@ -6,7 +6,6 @@ type FormFieldProps = {
   label: string;
   placeholder: string;
   value: string;
-  error?: string;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
   returnKeyType?: 'done' | 'go' | 'next' | 'search' | 'send';
   onChangeText: (value: string) => void;
@@ -16,7 +15,6 @@ export function FormField({
   label,
   placeholder,
   value,
-  error,
   autoCapitalize = 'none',
   returnKeyType = 'done',
   onChangeText,
@@ -30,10 +28,9 @@ export function FormField({
         placeholder={placeholder}
         placeholderTextColor="#777777"
         returnKeyType={returnKeyType}
-        style={[styles.input, error && styles.invalidInput]}
+        style={styles.input}
         value={value}
       />
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </View>
   );
 }
@@ -52,13 +49,5 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontSize: 13,
     backgroundColor: colors.background,
-  },
-  invalidInput: {
-    borderColor: colors.error,
-  },
-  errorText: {
-    marginTop: 3,
-    color: colors.error,
-    fontSize: 12,
   },
 });

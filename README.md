@@ -6,7 +6,7 @@
 
 - **Screen 1:** bố cục sáu ô màu, nhập UserName và MSSV; nhấn **Click me** để mở Screen 2.
 - **Screen 2:** hiển thị tên và MSSV đã nhập; nhấn nút **Back** màu cam ở góc trên trái để quay lại.
-- Hai trường bắt buộc nhập. Nếu còn trống, ứng dụng hiện lỗi ngay dưới trường tương ứng và không chuyển màn hình.
+- Hai trường bắt buộc nhập. Nếu còn trống, ứng dụng hiện hộp thoại cảnh báo và không chuyển màn hình.
 
 ## Cấu trúc thư mục
 

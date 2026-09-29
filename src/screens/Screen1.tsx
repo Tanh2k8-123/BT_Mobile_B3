@@ -11,27 +11,30 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { AppButton } from '../components/AppButton';
+import { AppDialog } from '../components/AppDialog';
 import { ColorTileGrid } from '../components/ColorTileGrid';
 import { FormField } from '../components/FormField';
 import { colors } from '../theme/colors';
-import type { RootStackParamList, StudentFormErrors } from '../types/navigation';
+import type { RootStackParamList } from '../types/navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Screen1'>;
 
 export function Screen1({ navigation }: Props) {
   const [userName, setUserName] = useState('');
   const [mssv, setMssv] = useState('');
-  const [errors, setErrors] = useState<StudentFormErrors>({});
+  const [dialogMessage, setDialogMessage] = useState<string | null>(null);
 
   function submitStudentInfo() {
     const student = { userName: userName.trim(), mssv: mssv.trim() };
-    const nextErrors: StudentFormErrors = {
-      userName: student.userName ? undefined : 'Vui lòng nhập UserName.',
-      mssv: student.mssv ? undefined : 'Vui lòng nhập MSSV.',
-    };
+    const missingFields = [
+      !student.userName && 'UserName',
+      !student.mssv && 'MSSV',
+    ].filter(Boolean);
 
-    setErrors(nextErrors);
-    if (nextErrors.userName || nextErrors.mssv) return;
+    if (missingFields.length > 0) {
+      setDialogMessage(`Vui lòng nhập ${missingFields.join(' và ')}.`);
+      return;
+    }
 
     navigation.navigate('Screen2', student);
   }
@@ -55,24 +58,16 @@ export function Screen1({ navigation }: Props) {
               <Text style={styles.heading}>Nhập thông tin sinh viên</Text>
               <FormField
                 autoCapitalize="words"
-                error={errors.userName}
                 label="UserName"
-                onChangeText={(value) => {
-                  setUserName(value);
-                  if (value.trim()) setErrors((current) => ({ ...current, userName: undefined }));
-                }}
+                onChangeText={setUserName}
                 placeholder="Enter your name"
                 returnKeyType="next"
                 value={userName}
               />
               <FormField
                 autoCapitalize="characters"
-                error={errors.mssv}
                 label="MSSV"
-                onChangeText={(value) => {
-                  setMssv(value);
-                  if (value.trim()) setErrors((current) => ({ ...current, mssv: undefined }));
-                }}
+                onChangeText={setMssv}
                 placeholder="Enter your student ID"
                 value={mssv}
               />
@@ -81,6 +76,12 @@ export function Screen1({ navigation }: Props) {
           </ScrollView>
         </View>
       </KeyboardAvoidingView>
+      <AppDialog
+        message={dialogMessage ?? ''}
+        onClose={() => setDialogMessage(null)}
+        title="Thiếu thông tin"
+        visible={dialogMessage !== null}
+      />
     </SafeAreaView>
   );
 }
