@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Bai tap buoi 3",
+    "slug": "bt-buoi-3",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true
+  }
+}
