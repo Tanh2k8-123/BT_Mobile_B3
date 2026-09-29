@@ -19,6 +19,8 @@ src/
   types/        # Kiểu dữ liệu và route params
 ```
 
+Xem hướng dẫn giải thích từng file tại [HUONG_DAN_GIAI_THICH_CODE.md](HUONG_DAN_GIAI_THICH_CODE.md).
+
 ## Chạy ứng dụng
 
 ```bash
