@@ -71,12 +71,13 @@ Trong `src/types/navigation.ts`, `Student` định nghĩa dữ liệu sinh viên
 
 Khi nhấn **Click me**, hàm `submitStudentInfo` thực hiện các bước:
 
-1. Gọi `trim()` để bỏ khoảng trắng ở đầu và cuối.
-2. Tìm trường nào còn trống.
-3. Nếu thiếu dữ liệu, đặt nội dung cảnh báo vào `dialogMessage` rồi dừng bằng `return`.
-4. Nếu đủ dữ liệu, gọi `navigation.navigate('Screen2', student)` để mở Screen 2 và gửi object `student` làm route params.
+1. Gọi `trim()` để bỏ khoảng trắng ở đầu và cuối tên, MSSV; chuyển MSSV thành chữ hoa bằng `toUpperCase()`.
+2. Tìm trường nào còn trống. Nếu thiếu dữ liệu, đặt nội dung cảnh báo vào `dialogMessage` rồi dừng bằng `return`.
+3. Kiểm tra MSSV theo mẫu `^B[A-Z]{2}2[2-6]\d{4}$`: ký tự đầu là `B`, tiếp theo là 2 chữ cái, 2 chữ số từ `22` đến `26`, rồi đúng 4 chữ số cuối. MSSV được chuyển thành chữ hoa trước khi kiểm tra.
+4. Nếu MSSV sai định dạng, hiển thị hướng dẫn nhập đúng mẫu rồi dừng, không chuyển màn hình. Ví dụ `BIT220015` và `BIT260015` hợp lệ; `BIT210015` sai vì năm nằm ngoài khoảng.
+5. Nếu thông tin hợp lệ, gọi `navigation.navigate('Screen2', student)` để mở Screen 2 và gửi object `student` làm route params.
 
-Đoạn xử lý nằm ở [Screen1.tsx](src/screens/Screen1.tsx#L27-L38). Ví dụ object được gửi:
+Đoạn xử lý nằm ở [Screen1.tsx](src/screens/Screen1.tsx#L27-L49). Ví dụ object được gửi:
 
 ```ts
 {
@@ -91,14 +92,14 @@ Khi nhấn **Click me**, hàm `submitStudentInfo` thực hiện các bước:
 
 ## 5. Hộp thoại kiểm tra dữ liệu
 
-`AppDialog` dùng component `Modal` để phủ hộp thoại lên màn hình hiện tại. Các props điều khiển nội dung và trạng thái gồm:
+`AppDialog` dùng component `Modal` để phủ hộp thoại lên màn hình hiện tại. Screen 1 dùng tiêu đề “Thông tin chưa hợp lệ” cho cả trường hợp thiếu dữ liệu và MSSV sai định dạng. Các props điều khiển nội dung và trạng thái gồm:
 
 - `visible`: hộp thoại có đang mở không.
-- `title`: tiêu đề, ví dụ “Thiếu thông tin”.
-- `message`: trường còn thiếu, ví dụ “Vui lòng nhập UserName và MSSV.”.
+- `title`: tiêu đề, ở Screen 1 là “Thông tin chưa hợp lệ”.
+- `message`: mô tả lỗi, ví dụ “Vui lòng nhập UserName và MSSV.” hoặc nhắc MSSV gồm `B` + 2 chữ cái + 2 chữ số từ `22` đến `26` + 4 chữ số.
 - `onClose`: hàm đóng hộp thoại khi nhấn **Đã hiểu** hoặc nút Back phần cứng trên Android.
 
-`Screen1` chỉ mở hộp thoại khi phát hiện trường trống; đóng hộp thoại không xóa nội dung đã nhập. [AppDialog.tsx](src/components/AppDialog.tsx#L1-L29) · [cách dùng trong Screen 1](src/screens/Screen1.tsx#L79-L84)
+`Screen1` mở hộp thoại khi phát hiện trường trống hoặc MSSV không khớp định dạng; đóng hộp thoại không xóa nội dung đã nhập. [AppDialog.tsx](src/components/AppDialog.tsx#L1-L29) · [cách dùng trong Screen 1](src/screens/Screen1.tsx#L89-L94)
 
 ## 6. Các component giao diện dùng chung
 
