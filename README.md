@@ -39,4 +39,4 @@ npm run web
 MSSV hợp lệ gồm chữ B, tiếp theo là 2 chữ cái, 2 chữ số từ 22 đến 26, rồi 4 chữ số. Chữ thường được tự chuyển thành chữ hoa; ví dụ BIT240015.
 
 - [Video demo kiểm tra mã sinh viên](videos/demo-validation-mssv.mp4)
-
+- [Video demo Buổi 3](<videos/video demo.mp4>)
