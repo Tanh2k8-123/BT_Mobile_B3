@@ -25,7 +25,10 @@ export function Screen1({ navigation }: Props) {
   const [dialogMessage, setDialogMessage] = useState<string | null>(null);
 
   function submitStudentInfo() {
-    const student = { userName: userName.trim(), mssv: mssv.trim() };
+    const student = {
+      userName: userName.trim(),
+      mssv: mssv.trim().toUpperCase(),
+    };
     const missingFields = [
       !student.userName && 'UserName',
       !student.mssv && 'MSSV',
@@ -33,6 +36,13 @@ export function Screen1({ navigation }: Props) {
 
     if (missingFields.length > 0) {
       setDialogMessage(`Vui lòng nhập ${missingFields.join(' và ')}.`);
+      return;
+    }
+
+    if (!/^B[A-Z]{2}2[2-6]\d{4}$/.test(student.mssv)) {
+      setDialogMessage(
+        'MSSV phải có dạng B + 2 chữ cái + năm từ 22 đến 26 + 4 chữ số (ví dụ: BIT240015).',
+      );
       return;
     }
 
@@ -79,7 +89,7 @@ export function Screen1({ navigation }: Props) {
       <AppDialog
         message={dialogMessage ?? ''}
         onClose={() => setDialogMessage(null)}
-        title="Thiếu thông tin"
+        title="Thông tin chưa hợp lệ"
         visible={dialogMessage !== null}
       />
     </SafeAreaView>
